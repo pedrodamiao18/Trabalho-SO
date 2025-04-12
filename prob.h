@@ -11,13 +11,22 @@ typedef struct {
     int period;
 } Process;
 
+typedef enum {
+    BURST_EXPONENTIAL,
+    BURST_NORMAL
+} BurstDistribution;
+
+extern BurstDistribution burst_mode;
+
 Process create_random_process(int id);
 void print_process(Process p);
 
+// Distribuições
+double exponential_burst(double mean);
+double normal_burst(double mean, double stddev);
+
+// Outros
 void schedule_fcfs();
-
 void simulate();
-
-int read_config(const char *filename);
 
 #endif // PROCESS_H

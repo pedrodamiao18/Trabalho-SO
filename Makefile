@@ -5,7 +5,7 @@
 CC = cc
 FLAGS = -c -Wall
 LIBS = -lm
-OBS = main.o process.o scheduler.o simulator.o utils.o
+OBS = main.o process.o scheduler.o simulator.o 
 
 # Alvo por defeito
 all : prob
@@ -21,9 +21,6 @@ scheduler.o : prob.h scheduler.c
 
 simulator.o : prob.h simulator.c
 	$(CC) $(FLAGS) simulator.c
-
-utils.o : prob.h utils.c
-	$(CC) $(FLAGS) utils.c
 
 prob : $(OBS)
 	$(CC) -o prob $(OBS) $(LIBS)
