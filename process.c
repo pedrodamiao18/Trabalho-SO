@@ -11,17 +11,21 @@
 
 BurstDistribution burst_mode = BURST_NORMAL; // modo por defeito
 
-double exponential_burst(double mean) {
+double exponential_burst(double m) {
     double u = drand48();
-    return -mean * log(1 - u);
+    return -m * log(1 - u);
 }
 
-double normal_burst(double mean, double stddev) {
+double normal_burst(double m, double devs) {
     double u1 = drand48();
     double u2 = drand48();
     double z = sqrt(-2.0 * log(u1)) * cos(2 * M_PI * u2);
-    double burst = mean + z * stddev;
-    return (burst < 0) ? 0.1 : burst;
+    double burst = m + z * devs;
+
+    if(burst < 0)
+        return 0.1;
+    else 
+        return burst;
 }
 
 Process create_random_process(int id) {

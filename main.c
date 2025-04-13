@@ -8,7 +8,7 @@ int main() {
     srand(time(NULL));
     srand48(time(NULL));
 
-    burst_mode = BURST_NORMAL; // ou BURST_EXPONENTIAL, BURST_UNIFORM
+    burst_mode = BURST_NORMAL; // ou BURST_EXPONENTIAL
 
     simulate();
     return 0;
