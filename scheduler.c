@@ -28,7 +28,13 @@ void schedule_fcfs(Process process[], int n)
 
     for (int i = 0; i < n; i++) {
         int arrival = process[i].arrival_time;
-        int start = (time < arrival) ? arrival : time;
+        
+        int start;
+        if (time < arrival)
+            start = arrival;
+        else
+            start = time;
+            
         int finish = start + process[i].burst_time;
         int waiting = start - arrival;
         int turnaround = finish - arrival;
