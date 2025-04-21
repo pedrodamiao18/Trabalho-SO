@@ -14,6 +14,19 @@ void sort_by_arrival(Process process[], int n) {
     }
 }
 
+void sort_by_burts(Process process[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (process[j].burst_time > process[j + 1].burst_time) {
+                Process temp = process[j];
+                process[j] = process[j + 1];
+                process[j + 1] = temp;
+            }
+        }
+    }
+}
+
+
 void schedule_fcfs(Process process[], int n)
 {
     sort_by_arrival(process, n);
@@ -51,3 +64,41 @@ void schedule_fcfs(Process process[], int n)
     printf("Tempo médio de espera     = %.2f\n", total_waiting / n);
     printf("Tempo médio de retorno    = %.2f\n", total_turnaround / n);
 }
+
+void schedule_sjf (Process process[], int n){
+    sort_by_burts(process, n);
+
+    int time = 0;
+    double total_waiting = 0;
+    double total_turnaround = 0;
+
+    printf("\n Resultados SJF:\n");
+    printf("| PID | Burts   | Start | Finish | Waiting | Turnaround |\n");
+    printf("|-----|---------|-------|--------|---------|------------|\n");
+
+    for (int i = 0; i < n; i++) {
+        int burst = process[i].burst_time;
+        
+        int start;
+        if (time < burst)
+            start = burst;
+        else
+            start = time;
+            
+        int finish = start + process[i].burst_time;
+        int waiting = start - burst;
+        int turnaround = finish - burst;
+
+        total_waiting += waiting;
+        total_turnaround += turnaround;
+        time = finish;
+
+        printf("| %3d | %7d | %5d | %6d | %7d | %10d |\n",
+               process[i].id, burst, start, finish, waiting, turnaround);
+    }
+
+    printf("\n Estatísticas:\n");
+    printf("Tempo médio de espera     = %.2f\n", total_waiting / n);
+    printf("Tempo médio de retorno    = %.2f\n", total_turnaround / n);
+}
+

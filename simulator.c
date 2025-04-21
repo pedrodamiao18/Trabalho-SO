@@ -21,6 +21,9 @@ void simulate()
     printf("\n A executar escalonador FCFS...\n");
     schedule_fcfs(lst, n);
 
+    printf("\n A executar escalonador SJF... \n");
+    schedule_sjf(lst,n);
+
     printf("\nSimulação finalizada \n");
     printf("Total de processos: %d\n", n);
 }
