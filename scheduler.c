@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "prob.h"
 
-// Função auxiliar para ordenação por arrival_time
 void sort_by_arrival(Process process[], int n) {
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i - 1; j++) {
@@ -29,7 +28,7 @@ void sort_by_burts(Process process[], int n) {
 void sort_by_priority(Process process[], int n) {
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i - 1; j++) {
-            if (process[j].priority < process[j + 1].priority) { // Ordem decrescente
+            if (process[j].priority < process[j + 1].priority) { 
                 Process temp = process[j];
                 process[j] = process[j + 1];
                 process[j + 1] = temp;
@@ -38,7 +37,7 @@ void sort_by_priority(Process process[], int n) {
     }
 }
 
-
+//First-Come, First-Served (FCFS)
 void schedule_fcfs(Process process[], int n)
 {
     sort_by_arrival(process, n);
@@ -77,6 +76,7 @@ void schedule_fcfs(Process process[], int n)
     printf("Tempo médio de retorno    = %.2f\n", total_turnaround / n);
 }
 
+//Shortest Job (SJ)
 void schedule_sjf(Process process[], int n) {
     int time = 0;
     int completed = 0;
@@ -101,7 +101,7 @@ void schedule_sjf(Process process[], int n) {
         }
 
         if (shortest == -1) {
-            time++; // Nenhum processo disponível — avança o tempo
+            time++; 
             continue;
         }
 
@@ -129,7 +129,7 @@ void schedule_sjf(Process process[], int n) {
     printf("Tempo médio de retorno    = %.2f\n", total_turnaround / n);
 }
 
-
+//Priority Scheduling (Preemptive and Non-Preemptive)
 void schedule_priority(Process process[], int n) {
     int time = 0;
     int completed = 0;
@@ -154,7 +154,7 @@ void schedule_priority(Process process[], int n) {
         }
 
         if (best == -1) {
-            time++; // Nenhum processo disponível — avança tempo
+            time++; 
             continue;
         }
 
