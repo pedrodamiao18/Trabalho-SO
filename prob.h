@@ -28,6 +28,7 @@ double normal_burst(double mean, double stddev);
 // Outros
 void schedule_fcfs();
 void schedule_sjf ();
+void schedule_priority ();
 void simulate();
 
 #endif // PROCESS_H
