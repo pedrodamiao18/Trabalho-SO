@@ -40,7 +40,7 @@ void schedule_fcfs(Process process[], int n)
     printf("|-----|---------|-------|--------|---------|------------|\n");
 
     for (int i = 0; i < n; i++) {
-        int arrival = process[i].arrival_time;
+        double arrival = process[i].arrival_time;
         
         int start;
         if (time < arrival)
@@ -56,7 +56,7 @@ void schedule_fcfs(Process process[], int n)
         total_turnaround += turnaround;
         time = finish;
 
-        printf("| %3d | %7d | %5d | %6d | %7d | %10d |\n",
+        printf("| %3d | %7.2f | %5d | %6d | %7d | %10d |\n",
                process[i].id, arrival, start, finish, waiting, turnaround);
     }
 
@@ -77,7 +77,7 @@ void schedule_sjf (Process process[], int n){
     printf("|-----|---------|-------|--------|---------|------------|\n");
 
     for (int i = 0; i < n; i++) {
-        int burst = process[i].burst_time;
+        double burst = process[i].burst_time;
         
         int start;
         if (time < burst)
@@ -93,7 +93,7 @@ void schedule_sjf (Process process[], int n){
         total_turnaround += turnaround;
         time = finish;
 
-        printf("| %3d | %7d | %5d | %6d | %7d | %10d |\n",
+        printf("| %3d | %7.2f | %5d | %6d | %7d | %10d |\n",
                process[i].id, burst, start, finish, waiting, turnaround);
     }
 

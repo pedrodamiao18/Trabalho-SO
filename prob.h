@@ -3,7 +3,7 @@
 
 typedef struct {
     int id;
-    int arrival_time;
+    double arrival_time;
     double burst_time;
     int remaining_time;
     int priority;

@@ -11,7 +11,7 @@
 
 BurstDistribution burst_mode = BURST_NORMAL; // modo por defeito
 
-double exponential_burst(double m) {
+double exponential(double m) {
     double u = drand48();
     return -m * log(1 - u);
 }
@@ -31,11 +31,11 @@ double normal_burst(double m, double devs) {
 Process create_random_process(int id) {
     Process p;
     p.id = id;
-    p.arrival_time = rand() % 10;
+    p.arrival_time = exponential(10.0);
 
     switch (burst_mode) {
         case BURST_EXPONENTIAL:
-            p.burst_time = exponential_burst(5.0); // média de 5ms
+            p.burst_time = exponential(5.0); // média de 5ms
             break;
         case BURST_NORMAL:
             p.burst_time = normal_burst(10.0, 2.0); // média de 10ms, desvio de 2
@@ -51,6 +51,6 @@ Process create_random_process(int id) {
 }
 
 void print_process(Process p) {
-    printf("Process %d | Arrival: %d | Burst: %.2f | Priority: %d\n",
+    printf("Process %d | Arrival: %.2f | Burst: %.2f | Priority: %d\n",
            p.id, p.arrival_time, p.burst_time, p.priority);
 }
