@@ -51,6 +51,6 @@ Process create_random_process(int id) {
 }
 
 void print_process(Process p) {
-    printf("Process %d | Arrival: %.2f | Burst: %.2f | Priority: %d\n",
-           p.id, p.arrival_time, p.burst_time, p.priority);
+    printf("Process %d | Arrival: %.2f | Burst: %.2f | Priority: %d | DeadLine: %f\n",
+           p.id, p.arrival_time, p.burst_time, p.priority, p.deadline);
 }

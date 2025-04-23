@@ -6,7 +6,7 @@ void simulate()
 {
     printf("Simulação iniciada...\n");
 
-    int n = rand() % 10 + 5; // entre 5 e 14 processos
+    int n = rand() % 10 + 5; 
     Process lst[n];
 
     for (int i = 0; i < n; i++) {
@@ -26,6 +26,9 @@ void simulate()
 
     printf("\n A executar escalonador Priority Scheduling... \n");
     schedule_priority(lst,n);
+
+    printf("\n A executar escalonador Earliest Deadline First... \n");
+    schedule_edf(lst,n);
 
     printf("\nSimulação finalizada \n");
     printf("Total de processos: %d\n", n);

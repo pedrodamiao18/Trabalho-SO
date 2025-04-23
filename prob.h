@@ -7,7 +7,7 @@ typedef struct {
     double burst_time;
     int remaining_time;
     int priority;
-    int deadline;
+    double deadline;
     int period;
 } Process;
 
@@ -29,6 +29,7 @@ double normal_burst(double mean, double stddev);
 void schedule_fcfs();
 void schedule_sjf ();
 void schedule_priority ();
+void schedule_edf();
 void simulate();
 
 #endif // PROCESS_H
