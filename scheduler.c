@@ -105,7 +105,6 @@ void schedule_sjf(Process process[], int n) {
     printf("Tempo médio de retorno    = %.2f\n", total_turnaround / n);
 }
 
-//Priority Scheduling (Preemptive and Non-Preemptive)
 void schedule_priority(Process process[], int n) {
     double time = 0;
     int completed = 0;
@@ -126,7 +125,6 @@ void schedule_priority(Process process[], int n) {
         for (int i = 0; i < n; i++) {
             if (!done[i] && process[i].arrival_time <= time) {
                 if (
-                    best == -1 ||
                     process[i].priority < process[best].priority || 
                     (process[i].priority == process[best].priority &&
                      process[i].burst_time < process[best].burst_time)
@@ -137,13 +135,14 @@ void schedule_priority(Process process[], int n) {
         }
 
         if (best == -1) {
-            double min_arrival = 1000;
+            int menor = 1000;
             for (int i = 0; i < n; i++) {
-                if (!done[i] && process[i].arrival_time < min_arrival) {
-                    min_arrival = process[i].arrival_time;
+                if (!done[i] && process[i].priority < menor) {
+                    best = i;
+                    menor = process[i].priority;
                 }
             }
-            time = min_arrival;
+            time = process[best].arrival_time;
             continue;
         }
 
