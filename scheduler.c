@@ -37,7 +37,7 @@ void schedule_fcfs(Process process[], int n) {
 
     int start[n], finish[n], pid[n];
 
-    printf("\n Resultados FCFS:\n");
+    printf("\n FCFS Results:\n");
     printf("| PID | Burst   | Start | Finish | Waiting | Turnaround |\n");
     printf("|-----|---------|-------|--------|---------|------------|\n");
 
@@ -57,9 +57,9 @@ void schedule_fcfs(Process process[], int n) {
                process[i].id, process[i].burst_time, start[i], finish[i], waiting, turnaround);
     }
 
-    printf("\n Estatísticas:\n");
-    printf("Tempo médio de espera     = %.2f\n", total_waiting / n);
-    printf("Tempo médio de retorno    = %.2f\n", total_turnaround / n);
+    printf("\n Statistics:\n");
+    printf("Average waiting time     = %.2f\n", total_waiting / n);
+    printf("Average turnaround time    = %.2f\n", total_turnaround / n);
 
     print_gantt_chart(start, finish, pid, n);
 }
