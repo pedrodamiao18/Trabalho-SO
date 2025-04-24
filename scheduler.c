@@ -13,42 +13,55 @@ void sort_by_burst(Process process[], int n) {
     }
 }
 
-// First-Come, First-Served (FCFS)
-void schedule_fcfs(Process process[], int n) {
-    sort_by_burst(process, n);
+void print_gantt_chart(int start[], int finish[], int id[], int n) {
+    printf("\nGantt Chart:\n");
 
+    
+    for (int i = 0; i < n; i++) {
+        printf("|  P%-2d  ", id[i]);
+    }
+    printf("|\n");
+
+    printf("%-3d", start[0]); 
+    for (int i = 0; i < n; i++) {
+        printf("     %-3d", finish[i]);
+    }
+    printf("\n");
+}
+
+// Função FCFS
+void schedule_fcfs(Process process[], int n) {
     int time = 0;
     double total_waiting = 0;
     double total_turnaround = 0;
 
-    printf("\n FCFS Results:\n");
+    int start[n], finish[n], pid[n];
+
+    printf("\n Resultados FCFS:\n");
     printf("| PID | Burst   | Start | Finish | Waiting | Turnaround |\n");
     printf("|-----|---------|-------|--------|---------|------------|\n");
 
     for (int i = 0; i < n; i++) {
-        double burst = process[i].burst_time;
+        pid[i] = process[i].id;
+        start[i] = (time > process[i].arrival_time) ? time : process[i].arrival_time;
+        finish[i] = start[i] + process[i].burst_time;
         
-        int start;
-        if (time < burst)
-            start = burst;
-        else
-            start = time;
-            
-        int finish = start + process[i].burst_time;
-        int waiting = start - burst;
-        int turnaround = finish - burst;
+        int waiting = start[i] - process[i].arrival_time;
+        int turnaround = finish[i] - process[i].arrival_time;
 
         total_waiting += waiting;
         total_turnaround += turnaround;
-        time = finish;
+        time = finish[i];
 
         printf("| %3d | %7.2f | %5d | %6d | %7d | %10d |\n",
-               process[i].id, burst, start, finish, waiting, turnaround);
+               process[i].id, process[i].burst_time, start[i], finish[i], waiting, turnaround);
     }
 
-    printf("\n Statistics:\n");
-    printf("Average waiting time     = %.2f\n", total_waiting / n);
-    printf("Average turnaround time  = %.2f\n", total_turnaround / n);
+    printf("\n Estatísticas:\n");
+    printf("Tempo médio de espera     = %.2f\n", total_waiting / n);
+    printf("Tempo médio de retorno    = %.2f\n", total_turnaround / n);
+
+    print_gantt_chart(start, finish, pid, n);
 }
 
 // Shortest Job First (SJF)
