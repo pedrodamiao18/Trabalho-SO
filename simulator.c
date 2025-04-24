@@ -25,7 +25,7 @@ void simulate()
     schedule_sjf(lst,n);
 
     printf("\n A executar escalonador Priority Scheduling... \n");
-    schedule_priority(lst,n);
+    schedule_priority_non_preemptive(lst,n);
 
     printf("\n A executar escalonador Earliest Deadline First... \n");
     schedule_edf(lst,n);

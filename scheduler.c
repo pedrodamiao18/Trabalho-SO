@@ -105,7 +105,7 @@ void schedule_sjf(Process process[], int n) {
     printf("Tempo médio de retorno    = %.2f\n", total_turnaround / n);
 }
 
-void schedule_priority(Process process[], int n) {
+void schedule_priority_non_preemptive(Process process[], int n) {
     double time = 0;
     int completed = 0;
     int done[n];
