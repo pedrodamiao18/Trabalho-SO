@@ -7,7 +7,7 @@
 #endif
 #include <time.h>
 
-#include "prob.h"
+#include "simulation.h"
 
 BurstDistribution burst_mode = BURST_NORMAL; // modo por defeito
 

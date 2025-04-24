@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "prob.h"
+#include "simulation.h"
 
 void sort_by_burst(Process process[], int n) {
     for (int i = 0; i < n - 1; i++) {
@@ -13,16 +13,15 @@ void sort_by_burst(Process process[], int n) {
     }
 }
 
-//First-Come, First-Served (FCFS)
-void schedule_fcfs(Process process[], int n)
-{
+// First-Come, First-Served (FCFS)
+void schedule_fcfs(Process process[], int n) {
     sort_by_burst(process, n);
 
     int time = 0;
     double total_waiting = 0;
     double total_turnaround = 0;
 
-    printf("\n Resultados FCFS:\n");
+    printf("\n FCFS Results:\n");
     printf("| PID | Burst   | Start | Finish | Waiting | Turnaround |\n");
     printf("|-----|---------|-------|--------|---------|------------|\n");
 
@@ -47,12 +46,12 @@ void schedule_fcfs(Process process[], int n)
                process[i].id, burst, start, finish, waiting, turnaround);
     }
 
-    printf("\n Estatísticas:\n");
-    printf("Tempo médio de espera     = %.2f\n", total_waiting / n);
-    printf("Tempo médio de retorno    = %.2f\n", total_turnaround / n);
+    printf("\n Statistics:\n");
+    printf("Average waiting time     = %.2f\n", total_waiting / n);
+    printf("Average turnaround time  = %.2f\n", total_turnaround / n);
 }
 
-//Shortest Job (SJ)
+// Shortest Job First (SJF)
 void schedule_sjf(Process process[], int n) {
     int time = 0;
     int completed = 0;
@@ -62,7 +61,7 @@ void schedule_sjf(Process process[], int n) {
     double total_waiting = 0;
     double total_turnaround = 0;
 
-    printf("\n Resultados SJF:\n");
+    printf("\n SJF Results:\n");
     printf("| PID | Arrival | Burst  | Start | Finish | Waiting | Turnaround |\n");
     printf("|-----|---------|--------|-------|--------|---------|------------|\n");
 
@@ -100,11 +99,12 @@ void schedule_sjf(Process process[], int n) {
                start, finish, waiting, turnaround);
     }
 
-    printf("\n Estatísticas:\n");
-    printf("Tempo médio de espera     = %.2f\n", total_waiting / n);
-    printf("Tempo médio de retorno    = %.2f\n", total_turnaround / n);
+    printf("\n Statistics:\n");
+    printf("Average waiting time     = %.2f\n", total_waiting / n);
+    printf("Average turnaround time  = %.2f\n", total_turnaround / n);
 }
 
+// Priority Scheduling (Non-preemptive)
 void schedule_priority_non_preemptive(Process process[], int n) {
     double time = 0;
     int completed = 0;
@@ -115,7 +115,7 @@ void schedule_priority_non_preemptive(Process process[], int n) {
     double total_waiting = 0;
     double total_turnaround = 0;
 
-    printf("\n Resultados Priority Scheduling:\n");
+    printf("\n Priority Scheduling Results (Non-preemptive):\n");
     printf("| PID | Priority | Arrival | Burst | Start | Finish | Waiting | Turnaround |\n");
     printf("|-----|----------|---------|-------|-------|--------|---------|------------|\n");
 
@@ -125,6 +125,7 @@ void schedule_priority_non_preemptive(Process process[], int n) {
         for (int i = 0; i < n; i++) {
             if (!done[i] && process[i].arrival_time <= time) {
                 if (
+                    best == -1 ||
                     process[i].priority < process[best].priority || 
                     (process[i].priority == process[best].priority &&
                      process[i].burst_time < process[best].burst_time)
@@ -135,11 +136,11 @@ void schedule_priority_non_preemptive(Process process[], int n) {
         }
 
         if (best == -1) {
-            int menor = 1000;
+            int min_priority = 1000;
             for (int i = 0; i < n; i++) {
-                if (!done[i] && process[i].priority < menor) {
+                if (!done[i] && process[i].priority < min_priority) {
                     best = i;
-                    menor = process[i].priority;
+                    min_priority = process[i].priority;
                 }
             }
             time = process[best].arrival_time;
@@ -166,12 +167,12 @@ void schedule_priority_non_preemptive(Process process[], int n) {
             start, finish, waiting, turnaround);
     }
 
-    printf("\n Estatísticas:\n");
-    printf("Tempo médio de espera     = %.2f\n", total_waiting / n);
-    printf("Tempo médio de retorno    = %.2f\n", total_turnaround / n);
+    printf("\n Statistics:\n");
+    printf("Average waiting time     = %.2f\n", total_waiting / n);
+    printf("Average turnaround time  = %.2f\n", total_turnaround / n);
 }
 
-//EDF (Earliest Deadline First)
+// Earliest Deadline First (EDF)
 void schedule_edf(Process process[], int n) {
     int time = 0;
     int completed = 0;
@@ -182,7 +183,7 @@ void schedule_edf(Process process[], int n) {
     double total_turnaround = 0;
     int deadline_misses = 0;
 
-    printf("\n Resultados EDF:\n");
+    printf("\n EDF Results:\n");
     printf("| PID | Deadline | Arrival | Burst | Start | Finish | Waiting | Turnaround |\n");
     printf("|-----|----------|---------|-------|-------|--------|---------|------------|\n");
 
@@ -228,8 +229,8 @@ void schedule_edf(Process process[], int n) {
         printf("\n");
     }
 
-    printf("\n Estatísticas:\n");
-    printf("Tempo médio de espera      = %.2f\n", total_waiting / n);
-    printf("Tempo médio de retorno     = %.2f\n", total_turnaround / n);
-    printf("Deadline misses             = %d de %d\n", deadline_misses, n);
+    printf("\n Statistics:\n");
+    printf("Average waiting time      = %.2f\n", total_waiting / n);
+    printf("Average turnaround time   = %.2f\n", total_turnaround / n);
+    printf("Deadline misses           = %d out of %d\n", deadline_misses, n);
 }
