@@ -57,11 +57,11 @@ void schedule_fcfs(Process process[], int n) {
                process[i].id, process[i].burst_time, start[i], finish[i], waiting, turnaround);
     }
 
+    print_gantt_chart(start, finish, pid, n);
+
     printf("\n Statistics:\n");
     printf("Average waiting time     = %.2f\n", total_waiting / n);
     printf("Average turnaround time    = %.2f\n", total_turnaround / n);
-
-    print_gantt_chart(start, finish, pid, n);
 }
 
 // Shortest Job First (SJF)
@@ -73,6 +73,8 @@ void schedule_sjf(Process process[], int n) {
 
     double total_waiting = 0;
     double total_turnaround = 0;
+
+    int start[n], finish[n], pid[n]; 
 
     printf("\n SJF Results:\n");
     printf("| PID | Arrival | Burst  | Start | Finish | Waiting | Turnaround |\n");
@@ -93,15 +95,18 @@ void schedule_sjf(Process process[], int n) {
             continue;
         }
 
-        int start = time;
-        int finish = start + process[shortest].burst_time;
-        int waiting = start - process[shortest].arrival_time;
-        int turnaround = finish - process[shortest].arrival_time;
+        start[completed] = time;
+        finish[completed] = start[completed] + process[shortest].burst_time;
+        pid[completed] = process[shortest].id;
 
+        int waiting = start[completed] - process[shortest].arrival_time;
+        int turnaround = finish[completed] - process[shortest].arrival_time;
+
+    
         total_waiting += waiting;
         total_turnaround += turnaround;
 
-        time = finish;
+        time = finish[completed];
         done[shortest] = 1;
         completed++;
 
@@ -109,8 +114,10 @@ void schedule_sjf(Process process[], int n) {
                process[shortest].id,
                process[shortest].arrival_time,
                process[shortest].burst_time,
-               start, finish, waiting, turnaround);
+               start[completed - 1], finish[completed - 1], waiting, turnaround);
     }
+
+    print_gantt_chart(start, finish, pid, n);
 
     printf("\n Statistics:\n");
     printf("Average waiting time     = %.2f\n", total_waiting / n);
@@ -127,6 +134,8 @@ void schedule_priority_non_preemptive(Process process[], int n) {
 
     double total_waiting = 0;
     double total_turnaround = 0;
+
+    int start[n], finish[n], pid[n]; 
 
     printf("\n Priority Scheduling Results (Non-preemptive):\n");
     printf("| PID | Priority | Arrival | Burst | Start | Finish | Waiting | Turnaround |\n");
@@ -160,29 +169,34 @@ void schedule_priority_non_preemptive(Process process[], int n) {
             continue;
         }
 
-        double start = time;
-        double finish = start + process[best].burst_time;
-        int waiting = start - process[best].arrival_time;
-        int turnaround = finish - process[best].arrival_time;
+        start[completed] = time;
+        finish[completed] = start[completed] + process[best].burst_time;
+        pid[completed] = process[best].id;
+
+        int waiting = start[completed] - process[best].arrival_time;
+        int turnaround = finish[completed] - process[best].arrival_time;
 
         total_waiting += waiting;
         total_turnaround += turnaround;
 
-        time = finish;
+        time = finish[completed];
         done[best] = 1;
         completed++;
 
-        printf("| %3d | %8d | %7.2f | %5.2f | %5.2f | %6.2f | %7d | %10d |\n",
+        printf("| %3d | %8d | %7.2f | %5.2f | %5d | %6d | %7d | %10d |\n",
             process[best].id,
             process[best].priority,
             process[best].arrival_time,
             process[best].burst_time,
-            start, finish, waiting, turnaround);
+            start[completed - 1], finish[completed - 1], waiting, turnaround);
     }
+    
+    print_gantt_chart(start, finish, pid, n);
 
     printf("\n Statistics:\n");
     printf("Average waiting time     = %.2f\n", total_waiting / n);
     printf("Average turnaround time  = %.2f\n", total_turnaround / n);
+
 }
 
 // Earliest Deadline First (EDF)
