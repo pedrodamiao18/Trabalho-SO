@@ -8,8 +8,12 @@ int main() {
     srand(time(NULL));
     srand48(time(NULL));
 
-    burst_mode = BURST_NORMAL; // ou BURST_EXPONENTIAL
+    load_parameters("config.txt");
+
+    burst_mode = sim_params.burst_mode; 
 
     simulate();
+
     return 0;
 }
+

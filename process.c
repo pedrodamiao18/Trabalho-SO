@@ -9,7 +9,7 @@
 
 #include "simulation.h"
 
-BurstDistribution burst_mode = BURST_NORMAL; // modo por defeito
+BurstDistribution burst_mode = BURST_NORMAL;
 
 double exponential(double m) {
     double u = drand48();

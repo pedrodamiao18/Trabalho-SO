@@ -1,0 +1,4 @@
+algorithm=PRIORITY
+n_processes=10
+burst_mode=NORMAL
+time_quantum=4

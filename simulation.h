@@ -21,15 +21,27 @@ extern BurstDistribution burst_mode;
 Process create_random_process(int id);
 void print_process(Process p);
 
-// Distribuições
 double exponential_burst(double mean);
 double normal_burst(double mean, double stddev);
 
-// Outros
 void schedule_fcfs();
 void schedule_sjf ();
 void schedule_priority_non_preemptive ();
 void schedule_edf();
 void simulate();
+
+
+
+typedef struct {
+    char algorithm[20];
+    int n_processes;
+    BurstDistribution burst_mode;
+    int time_quantum;
+} SimulationParams;
+
+extern SimulationParams sim_params;
+
+void load_parameters(const char* filename);
+
 
 #endif // PROCESS_H
