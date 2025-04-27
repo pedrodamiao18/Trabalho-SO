@@ -4,16 +4,16 @@
 
 #include "simulation.h"
 
-int main() {
+int main()
+{
     srand(time(NULL));
     srand48(time(NULL));
 
     load_parameters("config.txt");
 
-    burst_mode = sim_params.burst_mode; 
+    burst_mode = sim_params.burst_mode;
 
     simulate();
 
     return 0;
 }
-
