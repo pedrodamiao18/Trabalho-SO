@@ -1,7 +1,8 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-typedef struct {
+typedef struct
+{
     int id;
     double arrival_time;
     double burst_time;
@@ -11,7 +12,8 @@ typedef struct {
     int period;
 } Process;
 
-typedef enum {
+typedef enum
+{
     BURST_EXPONENTIAL,
     BURST_NORMAL
 } BurstDistribution;
@@ -24,16 +26,15 @@ void print_process(Process p);
 double exponential_burst(double mean);
 double normal_burst(double mean, double stddev);
 
+void schedule_rr(Process process[], int n, int time_quantum);
 void schedule_fcfs();
-void schedule_sjf ();
-void schedule_priority_non_preemptive ();
+void schedule_sjf();
+void schedule_priority_non_preemptive();
 void schedule_edf();
 void simulate();
 
-
-
-typedef struct {
-    char algorithm[20];
+typedef struct
+{
     int n_processes;
     BurstDistribution burst_mode;
     int time_quantum;
@@ -41,7 +42,6 @@ typedef struct {
 
 extern SimulationParams sim_params;
 
-void load_parameters(const char* filename);
+void load_parameters(const char *filename);
 
-
-#endif // PROCESS_H
+#endif
