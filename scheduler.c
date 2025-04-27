@@ -437,3 +437,95 @@ void schedule_rr(Process process[], int n, int time_quantum)
     printf("Average waiting time      = %.2f ms\n", total_waiting / n);
     printf("Average turnaround time   = %.2f ms\n", total_turnaround / n);
 }
+
+void schedule_rate_monotonic(Process process[], int n)
+{
+    for (int i = 0; i < n - 1; i++)
+    {
+        for (int j = 0; j < n - i - 1; j++)
+        {
+            if (process[j].period > process[j + 1].period)
+            {
+                Process temp = process[j];
+                process[j] = process[j + 1];
+                process[j + 1] = temp;
+            }
+        }
+    }
+
+    int time = 0;
+    int completed = 0;
+    int remaining_time[n];
+    int start[n * 100], finish[n * 100], pid[n * 100]; 
+    int gantt_count = 0;
+
+    // Inicializa remaining_time
+    for (int i = 0; i < n; i++)
+    {
+        remaining_time[i] = process[i].burst_time;
+    }
+
+    double total_waiting = 0;
+    double total_turnaround = 0;
+
+    printf("\n Rate Monotonic Scheduling Results:\n");
+    printf("| PID | Period | Burst | Start | Finish | Waiting | Turnaround |\n");
+    printf("|-----|--------|-------|-------|--------|---------|------------|\n");
+
+    while (completed < n)
+    {
+        int highest_priority = -1;
+
+        // Seleciona a tarefa de maior prioridade (menor período) pronta para executar
+        for (int i = 0; i < n; i++)
+        {
+            if (remaining_time[i] > 0 && process[i].arrival_time <= time)
+            {
+                if (highest_priority == -1 || process[i].period < process[highest_priority].period)
+                {
+                    highest_priority = i;
+                }
+            }
+        }
+
+        if (highest_priority != -1)
+        {
+            // Executa a tarefa por 1 unidade de tempo (preemptivo)
+            start[gantt_count] = time;
+            finish[gantt_count] = time + 1;
+            pid[gantt_count] = process[highest_priority].id;
+            gantt_count++;
+
+            remaining_time[highest_priority] -= 1;
+            time += 1;
+
+            // Verifica se a tarefa foi concluída
+            if (remaining_time[highest_priority] == 0)
+            {
+                completed++;
+                int turnaround = time - process[highest_priority].arrival_time;
+                int waiting = turnaround - process[highest_priority].burst_time;
+
+                total_waiting += waiting;
+                total_turnaround += turnaround;
+
+                printf("| %3d | %6d | %5.2f | %5d | %6d | %7d | %10d |\n",
+                       process[highest_priority].id,
+                       process[highest_priority].period,
+                       process[highest_priority].burst_time,
+                       time - 1, time, waiting, turnaround);
+            }
+        }
+        else
+        {
+            // Nenhuma tarefa pronta - avança o tempo
+            time++;
+        }
+    }
+
+    print_gantt_chart(start, finish, pid, gantt_count);
+
+    printf("\n Statistics:\n");
+    printf("Average waiting time      = %.2f\n", total_waiting / n);
+    printf("Average turnaround time   = %.2f\n", total_turnaround / n);
+}

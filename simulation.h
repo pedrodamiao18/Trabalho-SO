@@ -26,12 +26,14 @@ void print_process(Process p);
 double exponential_burst(double mean);
 double normal_burst(double mean, double stddev);
 
-void schedule_rr(Process process[], int n, int time_quantum);
+
 void schedule_fcfs();
 void schedule_sjf();
 void schedule_priority_non_preemptive();
 void schedule_priority_preemptive();
 void schedule_edf();
+void schedule_rr();
+void schedule_rate_monotonic();
 void simulate();
 
 typedef struct
@@ -46,3 +48,4 @@ extern SimulationParams sim_params;
 void load_parameters(const char *filename);
 
 #endif
+
