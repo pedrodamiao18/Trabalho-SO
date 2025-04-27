@@ -218,6 +218,80 @@ void schedule_priority_non_preemptive(Process process[], int n)
     printf("Average turnaround time  = %.2f\n", total_turnaround / n);
 }
 
+void schedule_priority_preemptive(Process process[], int n) {
+    int time = 0;
+    int completed = 0;
+    int done[n];
+    int remaining[n];
+    for (int i = 0; i < n; i++) {
+        done[i] = 0;
+        remaining[i] = process[i].burst_time; 
+    }
+
+    double total_waiting = 0;
+    double total_turnaround = 0;
+
+    printf("\n Priority Scheduling Results (Preemptive):\n");
+
+    int current = -1;
+
+    int start_arr[n];  
+    int finish_arr[n];
+    int id_arr[n];
+    int gantt_index = 0;
+
+    while (completed < n) {
+        int best = -1;
+
+        for (int i = 0; i < n; i++) {
+            if (!done[i] && process[i].arrival_time <= time) {
+                if (best == -1 || process[i].priority < process[best].priority ||
+                   (process[i].priority == process[best].priority && remaining[i] < remaining[best])) {
+                    best = i;
+                }
+            }
+        }
+
+        if (best != -1) {
+            if (current != best) {
+                if (current != -1) {
+                    finish_arr[gantt_index - 1] = time;
+                }
+
+                start_arr[gantt_index] = time;
+                id_arr[gantt_index] = process[best].id;
+                gantt_index++;
+                current = best;
+            }
+
+            remaining[current]--;
+            time++;
+
+            if (remaining[current] == 0) {
+                finish_arr[gantt_index - 1] = time;
+                
+                int waiting = start_arr[gantt_index - 1] - process[current].arrival_time;
+                int turnaround = time - process[current].arrival_time;
+
+                total_waiting += waiting;
+                total_turnaround += turnaround;
+
+                done[current] = 1;
+                completed++;
+                current = -1;
+            }
+        } else {
+            time++;
+        }
+    }
+
+    print_gantt_chart(start_arr, finish_arr, id_arr, gantt_index);
+
+    printf("\n Statistics:\n");
+    printf("Average waiting time     = %.2f\n", total_waiting / n);
+    printf("Average turnaround time  = %.2f\n", total_turnaround / n);
+}
+
 // Earliest Deadline First (EDF)
 void schedule_edf(Process process[], int n)
 {

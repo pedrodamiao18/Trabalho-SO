@@ -101,6 +101,9 @@ void simulate()
     //{
     printf("\nExecuting Priority Scheduling (Non-Preemptive)...\n");
     schedule_priority_non_preemptive(lst, n);
+
+    printf("\nExecuting Priority Scheduling (Preemptive)...\n");
+    schedule_priority_preemptive(lst, n);
     //}
     // else if (strcmp(sim_params.algorithm, "EDF") == 0)
     //{

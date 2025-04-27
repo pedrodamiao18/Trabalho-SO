@@ -30,6 +30,7 @@ void schedule_rr(Process process[], int n, int time_quantum);
 void schedule_fcfs();
 void schedule_sjf();
 void schedule_priority_non_preemptive();
+void schedule_priority_preemptive();
 void schedule_edf();
 void simulate();
 
