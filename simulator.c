@@ -101,6 +101,9 @@ void simulate()
     printf("\nExecuting Round Robin scheduler (Time Quantum = %d ms)...\n", sim_params.time_quantum);
     schedule_rr(lst, n, sim_params.time_quantum);
 
+    rintf("\nExecuting Rate Monotonic scheduler...\n");
+    schedule_rate_monotonic(lst, n);
+    
     printf("\nSimulation completed.\n");
     printf("Total number of processes: %d\n", n);
 }
