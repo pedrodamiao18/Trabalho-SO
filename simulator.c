@@ -44,11 +44,7 @@ void load_parameters(const char *filename)
 
         if (strlen(key) > 0 && strlen(value) > 0)
         {
-            // if (strcmp(key, "algorithm") == 0)
-            //  {
-            //      strcpy(sim_params.algorithm, value);
-            //  }
-            /*else*/ if (strcmp(key, "n_processes") == 0)
+           if (strcmp(key, "n_processes") == 0)
             {
                 sim_params.n_processes = atoi(value);
             }
@@ -87,39 +83,23 @@ void simulate()
         print_process(lst[i]);
     }
 
-    // if (strcmp(sim_params.algorithm, "FCFS") == 0)
-    // {
     printf("\nExecuting FCFS scheduler...\n");
     schedule_fcfs(lst, n);
-    // }
-    //  else if (strcmp(sim_params.algorithm, "SJF") == 0)
-    // {
+
     printf("\nExecuting SJF scheduler...\n");
     schedule_sjf(lst, n);
-    //  }
-    // else if (strcmp(sim_params.algorithm, "PRIORITY") == 0)
-    //{
+
     printf("\nExecuting Priority Scheduling (Non-Preemptive)...\n");
     schedule_priority_non_preemptive(lst, n);
 
     printf("\nExecuting Priority Scheduling (Preemptive)...\n");
     schedule_priority_preemptive(lst, n);
-    //}
-    // else if (strcmp(sim_params.algorithm, "EDF") == 0)
-    //{
+
     printf("\nExecuting Earliest Deadline First scheduler...\n");
     schedule_edf(lst, n);
-    //}
-    // else if (strcmp(sim_params.algorithm, "RR") == 0)
-    //{
+
     printf("\nExecuting Round Robin scheduler (Time Quantum = %d ms)...\n", sim_params.time_quantum);
     schedule_rr(lst, n, sim_params.time_quantum);
-    //}
-    // else
-    //{
-    //   printf("\nUnknown algorithm '%s'.\n", sim_params.algorithm);
-    //   exit(EXIT_FAILURE);
-    //}
 
     printf("\nSimulation completed.\n");
     printf("Total number of processes: %d\n", n);
