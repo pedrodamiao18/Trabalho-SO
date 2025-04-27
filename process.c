@@ -11,35 +11,39 @@
 
 BurstDistribution burst_mode = BURST_NORMAL;
 
-double exponential(double m) {
+double exponential(double m)
+{
     double u = drand48();
     return -m * log(1 - u);
 }
 
-double normal_burst(double m, double devs) {
+double normal_burst(double m, double devs)
+{
     double u1 = drand48();
     double u2 = drand48();
     double z = sqrt(-2.0 * log(u1)) * cos(2 * M_PI * u2);
     double burst = m + z * devs;
 
-    if(burst < 0)
+    if (burst < 0)
         return 0.1;
-    else 
+    else
         return burst;
 }
 
-Process create_random_process(int id) {
+Process create_random_process(int id)
+{
     Process p;
     p.id = id;
     p.arrival_time = exponential(10.0);
 
-    switch (burst_mode) {
-        case BURST_EXPONENTIAL:
-            p.burst_time = exponential(5.0); // média de 5ms
-            break;
-        case BURST_NORMAL:
-            p.burst_time = normal_burst(10.0, 2.0); // média de 10ms, desvio de 2
-            break;
+    switch (burst_mode)
+    {
+    case BURST_EXPONENTIAL:
+        p.burst_time = exponential(5.0); // média de 5ms
+        break;
+    case BURST_NORMAL:
+        p.burst_time = normal_burst(10.0, 2.0); // média de 10ms, desvio de 2
+        break;
     }
 
     p.remaining_time = p.burst_time;
@@ -50,7 +54,8 @@ Process create_random_process(int id) {
     return p;
 }
 
-void print_process(Process p) {
+void print_process(Process p)
+{
     printf("Process %d | Arrival: %.2f | Burst: %.2f | Priority: %d | DeadLine: %f\n",
            p.id, p.arrival_time, p.burst_time, p.priority, p.deadline);
 }
